@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     gettext \
     git \
+    just \
     libadwaita-1-dev \
     libdex-dev \
     libflatpak-dev \

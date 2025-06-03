@@ -30,10 +30,22 @@
 	"containerEnv": {
 		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
-		"XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}"
+		"XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
+		"DBUS_SESSION_BUS_ADDRESS": "unix:path=${localEnv:XDG_RUNTIME_DIR}/bus",
+		"DBUS_SYSTEM_BUS_ADDRESS": "unix:path=/var/run/dbus/system_bus_socket"
 	},
 
 	"mounts": [
-		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached"
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
+		"source=${localEnv:XDG_RUNTIME_DIR}/bus,target=${localEnv:XDG_RUNTIME_DIR}/bus,type=bind",
+		"source=/run/dbus/system_bus_socket,target=/run/dbus/system_bus_socket,type=bind",
+		"source=/var/run/dbus/system_bus_socket,target=/var/run/dbus/system_bus_socket,type=bind",
+		"source=/var/lib/flatpak,target=/var/lib/flatpak,type=bind",
+		"source=${localEnv:HOME}/.local/share/flatpak,target=${localEnv:HOME}/.local/share/flatpak,type=bind"
+	],
+
+	"runArgs": [
+		"--pid=host",
+		"--privileged"
 	]
 }
